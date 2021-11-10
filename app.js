@@ -1,8 +1,19 @@
+require("./db/connect");
 const express = require("express");
 const app = express();
 const tasks = require("./routes/tasks");
+const connectDB = require("./db/connect");
 
 const port = 5000;
+
+const start = async () => {
+  try {
+    await connectDB();
+    app.listen(port, console.log(`server is listening on ${port}`));
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // Middleware
 
@@ -16,4 +27,4 @@ app.get("/hello", (req, res) => {
 
 app.use("/api/v1/tasks", tasks);
 
-app.listen(port, console.log(`server is listening on ${port}`));
+start();
